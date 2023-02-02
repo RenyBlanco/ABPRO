@@ -44,18 +44,19 @@
             </div>
 
             <section class="cart" id="cart">
-                <h1 class="section-header">CART</h1>
+                <h1 class="section-header">Carro</h1>
                 <div class="cart-row">
-                    <span class="cart-item cart-header cart-column">ITEM</span>
-                    <span class="cart-price cart-header cart-column">PRICE</span>
-                    <span class="cart-quantity cart-header cart-column">QUANTITY</span>
+                    <span class="cart-item cart-header cart-column">Productos</span>
+                    <span class="cart-price cart-header cart-column">Precio</span>
+                    <span class="cart-quantity cart-header cart-column">Cantidad</span>
                 </div>
                 <div class="cart-items"></div>
                 <div class="cart-total">
                     <strong class="cart-total-title">Total</strong>
                     <span class="cart-total-price">$0</span>
                 </div>
-                <button class="btn btn-primary btn-purchase" type="button">PURCHASE</button>
+                <button class="btn btn-secondary" id="boton-vaciar" type="button">Vaciar</button>
+                <button class="btn btn-primary btn-purchase" id="pagar" type="button">Pagar</button>
             </section>
         </div> <!--navbar-container-->
     </header>
@@ -63,369 +64,9 @@
 
     <!-- Contenido -->
     <main>
-        <section class="py-4 mt-3">
-            <div class="encabeza">
-                <h1>Tecno Chile</h1>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                        <img src="/img/intro.avif" class="img-thumbnail" alt="Imagen de inicio">
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                        <h2>En Tecno Chile, encontrará todo lo necesario...</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum ipsam voluptas temporibus eum!
-                            Impedit,
-                            culpa porro maxime distinctio expedita obcaecati exercitationem necessitatibus est aliquid
-                            tempore vitae
-                            quo nam. Maxime, atque.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="py-4 mt-5" id="nosotros">
-            <div class="container mt-5">
-                <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                        <img src="/img/nosotros.jpg" class="img-thumbnail" style="width: 75%;" alt="Foto del Perfil">
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                        <h2>Nosotros...</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti ut culpa quia, sit nisi aperiam
-                            earum.
-                            Porro reiciendis nulla dicta quidem eligendi nihil aspernatur temporibus, quam maxime nam?
-                            Libero, ad?
-                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Optio corrupti vel deleniti quae error
-                            eveniet, laudantium, minima rerum libero explicabo quod! Libero illum eveniet harum voluptas
-                            numquam
-                            quibusdam sequi eum?</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="mt-5" id="ventas">
-            <div class="container mt-5">
-                <div class="row ">
-                    <div class="col-md-12">
-                        <hr>
-                        <div class="col-md-12">
-                            <div class="button-placement d-none d-sm-none d-md-block">
-                                <a class="btn btn-sm btn-success" href="#carouselExample" role="button" data-slide="prev"> <i class="fas fa-chevron-circle-left"></i> </a>
-                                <a class="btn btn-sm btn-success" href="#carouselExample" role="button" data-slide="next"> <i class="fas fa-chevron-circle-right"></i> </a>
-                            </div>
-                        </div>
-                        <div class="button-placement d-md-none d-lg-none d-xl-none">
-                            <a class="btn btn-sm btn-success" href="#carouselExampleMobile" role="button" data-slide="prev"> <i class="fas fa-chevron-circle-left"></i> </a>
-                            <a class="btn btn-sm btn-success" href="#carouselExampleMobile" role="button" data-slide="next"> <i class="fas fa-chevron-circle-right"></i> </a>
-                        </div>
-                    </div>
-                    <div id="carouselExample" class="carousel slide d-none d-sm-none d-md-block" data-ride="carousel">
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <div class="row" id="items">
-                                    
-                                </div>
-                            </div>
-                            <!-- Carousel Item 1 -->
-                            <!-- <div class="carousel-item">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="product-block">
-                                            <img class="d-block w-100 foto" src="/img/laptop1.jpg" alt="Product">
-                                            <small>Precio</small>
-                                            <p>$200</p>
-                                            <button class="btn btn-outline-success AGREGA" type="button">Añadir al carro</button>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="product-block">
-                                            <img class="d-block w-100 foto" src="/img/laptop2.jpg" alt="Product">
-                                            <small>Precio</small>
-                                            <p>$200</p>
-                                            <button class="btn btn-outline-success AGREGA" type="button">Añadir al carro</button>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="product-block">
-                                            <img class="d-block w-100 foto" src="/img/laptop3.webp" alt="Product">
-                                            <small>Precio</small>
-                                            <p>$200</p>
-                                            <button class="btn btn-outline-success AGREGA" type="button">Añadir al carro</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
-                            <!-- Carousel Item 2 -->
-                            <!-- <div class="carousel-item">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="product-block">
-                                            <img class="d-block w-100 foto" src="/img/head1.jpg" alt="Product">
-                                            <small>Precio</small>
-                                            <p>$200</p>
-                                            <button class="btn btn-outline-success AGREGA" type="button">Añadir</button>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="product-block">
-                                            <img class="d-block w-100 foto" src="/img/head2.webp" alt="Product">
-                                            <small>Precio</small>
-                                            <p>$200</p>
-                                            <button class="btn btn-outline-success AGREGA" type="button">Añadir</button>
-                                               
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="product-block">
-                                            <img class="d-block w-100 foto" src="/img/head3.webp" alt="Product">
-                                            <small>Precio</small>
-                                            <p>$200</p>
-                                            <button class="btn btn-outline-success AGREGA" type="button">Añadir al carro</button>
-                                               
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
-                            <!-- Carousel Item 3 -->
-                            <!-- <div class="carousel-item">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="product-block">
-                                            <img class="d-block w-100 foto" src="/img/psp.jpg" alt="Product">
-                                            <small>Precio</small>
-                                            <p>$200</p>
-                                            <button class="btn btn-outline-success AGREGA" type="button">Añadir al carro</button>
-                                                
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="product-block">
-                                            <img class="d-block w-100 foto" src="/img/ps4.jpg" alt="Product">
-                                            <small>Precio</small>
-                                            <p>$200</p>
-                                            <button class="btn btn-outline-success AGREGA" type="button">Añadir al carro</button>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="product-block">
-                                            <img class="d-block w-100 foto" src="/img/xbox.webp" alt="Product">
-                                            <small>Precio</small>
-                                            <p>$200</p>
-                                            <button class="btn btn-outline-success AGREGA" type="button">Añadir al carro</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
-                        </div>
-                    </div>
-                    <div id="carouselExampleMobile" class="carousel slide d-md-none d-lg-none d-xl-none" data-ride="carousel">
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <div class="product-block">
-                                    <img class="d-block w-100" src="/img/huawei.jpg" alt="Product">
-                                    <small>Precio</small>
-                                    <p>$200</p>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <a class="btn btn-outline-success btn-sm" href="#">Añadir</a>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a class="btn btn-outline-danger btn-sm" href="#">Detalles</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Carousel Item 1 -->
-                            <div class="carousel-item">
-                                <div class="product-block">
-                                    <img class="d-block w-100" src="/img/xiaomi.webp" alt="Product">
-                                    <h4>Product 2</h4>
-                                    <small>Variant</small>
-                                    <p>$200</p>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <a class="btn btn-outline-success btn-sm" href="#">Añadir</a>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a class="btn btn-outline-danger btn-sm" href="#">Detalles</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Carousel Item 2 -->
-                            <div class="carousel-item">
-                                <div class="product-block">
-                                    <img class="d-block w-100" src="/img/motorola.jpg" alt="Product">
-                                    <h4>Product 3</h4>
-                                    <small>Variant</small>
-                                    <p>$200</p>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <a class="btn btn-sm btn-success" href="#">Añadir</a>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a class="btn btn-outline-danger btn-sm" href="#">Detalles</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Carousel Item 3 -->
-                            <div class="carousel-item">
-                                <div class="product-block">
-                                    <img class="d-block w-100" src="/img/laptop1.jpg" alt="Product">
-                                    <h4>Product 4</h4>
-                                    <small>Variant</small>
-                                    <p>$200</p>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <a class="btn btn-sm btn-success" href="#">Añadir</a>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a class="btn btn-outline-danger btn-sm" href="#">Detalles</a>
-                                        </div>
-                                    </div>
-                                </div>  
-                            </div>
-                            <!-- Carousel Item 4 -->
-                            <div class="carousel-item">
-                                <div class="product-block">
-                                    <img class="d-block w-100" src="/img/laptop2.jpg" alt="Product">
-                                    <h4>Product 5</h4>
-                                    <small>Variant</small>
-                                    <p>$200</p>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <a class="btn btn-sm btn-success" href="#">Añadir</a>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a class="btn btn-outline-danger btn-sm" href="#">Detalles</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Carousel Item 5 -->
-                            <div class="carousel-item">
-                                <div class="product-block">
-                                    <img class="d-block w-100" src="/img/laptop3.webp" alt="Product">
-                                    <h4>Product 6</h4>
-                                    <small>Variant</small>
-                                    <p>$200</p>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <a class="btn btn-sm btn-success" href="#">Añadir</a>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a class="btn btn-outline-danger btn-sm" href="#">Detalles</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Carousel Item 6 -->
-                            <div class="carousel-item">
-                                <div class="product-block">
-                                    <img class="d-block w-100" src="/img/head1.jpg" alt="Product">
-                                    <h4>Product 7</h4>
-                                    <small>Variant</small>
-                                    <p>$200</p>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <a class="btn btn-sm btn-success" href="#">Añadir</a>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a class="btn btn-outline-danger btn-sm" href="#">Detalles</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Carousel Item 7 -->
-                            <div class="carousel-item">
-                                <div class="product-block">
-                                    <img class="d-block w-100" src="/img/head2.webp" alt="Product">
-                                    <h4>Product 8</h4>
-                                    <small>Variant</small>
-                                    <p>$200</p>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <a class="btn btn-sm btn-success" href="#">Añadir</a>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a class="btn btn-outline-danger btn-sm" href="#">Detalles</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Carousel Item 8 -->
-                            <div class="carousel-item">
-                                <div class="product-block">
-                                    <img class="d-block w-100" src="/img/head3.webp" alt="Product">
-                                    <h4>Product 9</h4>
-                                    <small>Variant</small>
-                                    <p>$200</p>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <a class="btn btn-sm btn-success" href="#">Añadir</a>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a class="btn btn-outline-danger btn-sm" href="#">Detalles</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Carousel Item 9 -->
-                            <div class="carousel-item">
-                                <div class="product-block">
-                                    <img class="d-block w-100" src="/img/psp.jpg" alt="Product">
-                                    <h4>Product 10</h4>
-                                    <small>Variant</small>
-                                    <p>$200</p>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <a class="btn btn-sm btn-success" href="#">Añadir</a>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a class="btn btn-outline-danger btn-sm" href="#">Detalles</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Carousel Item 10 -->
-                            <div class="carousel-item">
-                                <div class="product-block">
-                                    <img class="d-block w-100" src="/img/ps4.jpg" alt="Product">
-                                    <h4>Product 11</h4>
-                                    <small>Variant</small>
-                                    <p>$200</p>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <a class="btn btn-sm btn-success" href="#">Añadir</a>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a class="btn btn-outline-danger btn-sm" href="#">Detalles</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Carousel Item 11 -->
-                            <div class="carousel-item">
-                                <div class="product-block">
-                                    <img class="d-block w-100" src="/img/xbox.webp" alt="Product">
-                                    <h4>Product 12</h4>
-                                    <small>Variant</small>
-                                    <p>$200</p>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <a class="btn btn-sm btn-success" href="#">Añadir</a>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <a class="btn btn-outline-danger btn-sm" href="#">Detalles</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- End of Row -->
+        <section class="container">
+            <div class="products" id="items">
+                
             </div>
         </section>
     </main>
@@ -436,7 +77,7 @@
 			<span class="ir-arriba"><i class="fas fa-arrow-up"></i></span>
 			<div class="">
 				<div class="col-md-12 text-center">
-					<p>&copy; Tecno Chile. Diseñado por <strong>Reinaldo Blanco</strong><br></p>
+					<p>&copy; Tecno Chile. Diseñado por <strong>CIDRS</strong><br></p>
 				</div>
 			</div>
 			<div class="row">
@@ -469,8 +110,15 @@
     <script>
         
         //document.getElementById("fecha").innerHTML = moment().format('MMMM Do YYYY, h:mm:ss a');
-
+        
         $(document).ready(function(){
+            if(document.querySelector(".cart-total-price").innerHTML == "$0"){
+                document.getElementById('boton-vaciar').style.visibility = "hidden";
+                document.getElementById('pagar').style.visibility = "hidden";
+            }else{
+                document.getElementById('boton-vaciar').style.visibility = "visible";
+                document.getElementById('pagar').style.visibility = "visible";
+            }
             $('.ir-arriba').click(function(){
                 $('body, html').animate({
                 scrollTop: '0px'
@@ -478,9 +126,9 @@
             });
             $(window).scroll(function(){
                 if($(this).scrollTop() > 0){
-                $('.ir-arriba').slideDown(300);
+                    $('.ir-arriba').slideDown(300);
                 }else{
-                $('.ir-arriba').slideUp(300);
+                    $('.ir-arriba').slideUp(300);
                 };
             });
         });

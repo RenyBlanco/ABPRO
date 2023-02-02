@@ -15,7 +15,7 @@
   }
   
   function ready() {
-	var addToCartButtons = document.getElementsByClassName("ADD_TO_CART");
+	var addToCartButtons = document.getElementsByClassName("AGREGA");
 	for (var i = 0; i < addToCartButtons.length; i++) {
 	  var button = addToCartButtons[i];
 	  button.addEventListener("click", addToCartClicked);
@@ -70,9 +70,13 @@
   function addToCartClicked(event) {
 	var button = event.target;
 	var product = button.parentElement.parentElement;
+  console.log('Product', product);
 	var title = product.getElementsByClassName("product-title")[0].innerText;
-	var price = product.getElementsByClassName("product__price")[0].innerText;
+  console.log('Title', title);
+	var price = product.getElementsByClassName("product__price")[0].innerHTML;
+  console.log('Price', price);
 	var imageSrc = product.getElementsByClassName("product__image")[0].src;
+  console.log('ImageSrc', imageSrc);
 	addItemToCart(title, price, imageSrc);
 	updateCartTotal();
 	 /*missing*/
@@ -98,7 +102,7 @@
 	<span class="cart-price cart-column">${price}</span>
 	<div class="cart-quantity cart-column">
 		<input class="cart-quantity-input" type="number" value="1">
-		<button class="btn btn-danger" type="button">REMOVE</button>
+		<button class="btn btn-danger" type="button"><i class="fas fa-trash-alt"></i></button>
 	</div>`;
 	cartRow.innerHTML = cartRowContents;
 	cartItems.append(cartRow);
@@ -148,45 +152,56 @@
             id: 1,
             nombre: 'Celular Huawei',
             precio: 230000,
-            imagen: 'huawei.jpg'
+            imagen: 'huawei.jpg',
+            stock: 10
         },
         {
             id: 2,
             nombre: 'Celular Motorola',
             precio: 185000,
-            imagen: 'motorola.jpg'
+            imagen: 'motorola.jpg',
+            stock: 10
         },
         {
             id: 3,
             nombre: 'Laptop Lenovo',
             precio: 1200000,
-            imagen: 'laptop1.jpg'
+            imagen: 'laptop1.jpg',
+            stock: 10
         },
         {
             id: 4,
             nombre: 'Laptop HP',
-            precio: 0.6,
-            imagen: 'laptop2.jpg'
+            precio: 1550000,
+            imagen: 'laptop2.jpg',
+            stock: 10
         },
 		{
             id: 5,
             nombre: 'Headphones',
             precio: 20000,
-            imagen: 'head1.jpg'
+            imagen: 'head1.jpg',
+            stock: 10
         },
         {
             id: 6,
             nombre: 'Headphones',
             precio: 35000,
-            imagen: 'head2.webp'
+            imagen: 'head2.webp',
+            stock: 10
         }
 
     ];
+    let formato = new Intl.NumberFormat('es-CL', {
+      style: 'currency',
+      currency: 'CLP'
+    });
+  
   	let carrito = [];
     const divisa = '$';
     const DOMitems = document.querySelector('#items');
-    const DOMcarrito = document.querySelector('#carrito');
-    const DOMtotal = document.querySelector('#total');
+    //const DOMcarrito = document.querySelector('#carrito');
+    //const DOMtotal = document.querySelector('#total');
     const DOMbotonVaciar = document.querySelector('#boton-vaciar');
     const miLocalStorage = window.localStorage;
 
@@ -200,32 +215,36 @@
             // Estructura
 			
             const miNodo = document.createElement('div');
-            miNodo.classList.add('col-md-3');
+            miNodo.classList.add('col-md-12');
             // Body
             const miNodoCardBody = document.createElement('div');
-            miNodoCardBody.classList.add('product-block');
+            miNodoCardBody.classList.add('product');
             // Titulo
             const miNodoTitle = document.createElement('h5');
-            //miNodoTitle.classList.add('card-title');
+            miNodoTitle.classList.add('product-title');
             miNodoTitle.textContent = info.nombre;
             // Imagen
             const miNodoImagen = document.createElement('img');
-            miNodoImagen.classList.add('d-block', 'w-100','foto');
+            miNodoImagen.classList.add('product__image');
             miNodoImagen.setAttribute('src', './img/'+info.imagen);
+            // Stock
+            const miNodoStock = document.createElement('p');
+            miNodoStock.textContent = `Stock disponible: ${info.stock}`;
             // Precio
             const miNodoPrecio = document.createElement('p');
-            //miNodoPrecio.classList.add('card-text');
-            miNodoPrecio.textContent = `${divisa}${info.precio}`;
+            miNodoPrecio.classList.add('product__price');
+            miNodoPrecio.textContent = `${formato.format(info.precio)}`;
             // Boton 
 		
             const miNodoBoton = document.createElement('button');
             miNodoBoton.classList.add('btn', 'btn-outline-success','AGREGA');
-            miNodoBoton.textContent = '+';
+            miNodoBoton.textContent = 'Añadir al carro';
             miNodoBoton.setAttribute('marcador', info.id);
-            miNodoBoton.addEventListener('click', anyadirProductoAlCarrito);
+            miNodoBoton.addEventListener('click', addToCartClicked);
             // Insertamos
             miNodoCardBody.appendChild(miNodoImagen);
             miNodoCardBody.appendChild(miNodoTitle);
+            miNodoCardBody.appendChild(miNodoStock);
             miNodoCardBody.appendChild(miNodoPrecio);
             miNodoCardBody.appendChild(miNodoBoton);
             miNodo.appendChild(miNodoCardBody);
@@ -250,7 +269,7 @@
     */
     function renderizarCarrito() {
         // Vaciamos todo el html
-        DOMcarrito.textContent = '';
+        //DOMcarrito.textContent = '';
         // Quitamos los duplicados
         const carritoSinDuplicados = [...new Set(carrito)];
         // Generamos los Nodos a partir de carrito
@@ -345,7 +364,7 @@
     //DOMbotonVaciar.addEventListener('click', vaciarCarrito);
 
     // Inicio
-    cargarCarritoDeLocalStorage();
+    //cargarCarritoDeLocalStorage();
     renderizarProductos();
-    renderizarCarrito();
+    //renderizarCarrito();
 });
