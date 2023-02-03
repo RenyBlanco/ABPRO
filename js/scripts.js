@@ -1,5 +1,4 @@
 // Carro 2
-
 document.addEventListener('DOMContentLoaded', () => {
     const baseDeDatos = [
         {
@@ -46,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     
     ];
+
     let formato = new Intl.NumberFormat('es-CL', {
         style: 'currency',
         currency: 'CLP'
@@ -169,7 +169,8 @@ document.addEventListener('DOMContentLoaded', () => {
     /*end*/
 
     function purchaseClicked(){
-        alert("Gracias por su compra");
+        abrirModal();
+        //alert("Gracias por su compra");
         var cartItems = document.getElementsByClassName("cart-items")[0];
         while (cartItems.hasChildNodes()){
             cartItems.removeChild(cartItems.firstChild);
@@ -196,9 +197,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isNaN(input.value) || input.value <= 0) {
             input.value = 1;
         }
-        if(input.value > dataset.stock) {
-            alert('Cantidad superior al stock actual');
-        }
+        // if(input.value > dataset.stock) {
+        //     alert('Cantidad superior al stock actual');
+        // }
         updateCartTotal();
         updateItemsTotal();
     }

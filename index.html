@@ -11,8 +11,8 @@
 
     <!-- Bootstrap CSS 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
-    
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"> -->
     <!-- Font Awesome CSS -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 
@@ -53,7 +53,7 @@
                 <div class="cart-items"></div>
                 <div class="cart-total">
                     <strong class="cart-total-title">Total</strong>
-                    <span class="cart-total-price">$0</span>
+                    <span class="cart-total-price" id="total-price">$0</span>
                 </div>
                 <button class="btn btn-secondary btn-vaciar" id="vaciar" type="button">Vaciar</button>
                 <button class="btn btn-primary btn-purchase" id="pagar" type="button">Pagar</button>
@@ -93,24 +93,18 @@
 	</footer>
     <!-- End of Container -->
 
-    <!-- JQuery Plugin -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-    <!-- Bootstrap JQuery Plugin 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    -->
     <!-- Bootstrap JQuery Plugin -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
     <!-- Additional Javascript -->
     <script type="text/javascript" src="js/main.js"></script>
     <script type="text/javascript" src="js/scripts.js"></script>
     <script type="text/javascript" src="js/moment.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js">
+    </script>
     <script>
-        
         //document.getElementById("fecha").innerHTML = moment().format('MMMM Do YYYY, h:mm:ss a');
-        
         $(document).ready(function(){
             if(document.querySelector(".cart-total-price").innerHTML == "$0"){
                 document.getElementById('vaciar').style.visibility = "hidden";
@@ -131,6 +125,225 @@
         });
 
     </script>
+    <script>
+        let formato = new Intl.NumberFormat('es-CL', {
+        style: 'currency',
+        currency: 'CLP'
+    });
+        (function () {
+            emailjs.init("m0bJyc8oDT7rSweoJ");
+        })();
+        var myModal
+        function abrirModal() {
+            cart.classList.toggle("show-cart");
+            myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
+                keyboard: true
+            });
+            myModal.show();
+            let subtotal = document.getElementById('total-price').innerHTML.replace("$", "");
+            console.log(subtotal);
+            subtotal = subtotal.replace(".","");
+            document.getElementById('subtotal').innerHTML = " "+formato.format(subtotal);
+            document.getElementById('impuesto').innerHTML = " "+formato.format(subtotal*0.19);
+            document.getElementById('totalisimo').innerHTML = " "+formato.format(subtotal * 1.19);
+        }
+
+        function enviarCorreo() {
+            let productos = '';
+            myModal.hide()
+            var cartItemContainer = document.getElementsByClassName("cart-items")[0];
+            var cartRows = cartItemContainer.getElementsByClassName("cart-row");
+            var total = 0;
+            for (var i = 0; i < cartRows.length; i++) {
+                var cartRow = cartRows[i];
+                var titleElement = cartRow.getElementsByClassName("cart-item-title")[0];
+                var quantityElement = cartRow.getElementsByClassName("cart-quantity-input")[0];
+                var priceElement = cartRow.getElementsByClassName("cart-price")[0];
+                var price = priceElement.innerHTML.replace("$", "");
+                price = price.replace(".","");
+                var quantity = quantityElement.value;
+                total = total + (price * quantity);
+                productos += '\n'+titleElement.innerHTML+'  '+quantityElement.value+' '+priceElement.innerHTML +' '+formato.format(total);
+            }
+            var templateParams = {
+            to_name: document.getElementById('nombre').value+' '+document.getElementById('apellido').value,
+            dir: document.getElementById('dir').value,
+            numero: document.getElementById('numero').value,
+            ciudad: document.getElementById('ciudad').value,
+            de_correo: document.getElementById('de_correo').value,
+            message: productos+'\n subtotal : '+ document.getElementById('subtotal').innerHTML+'\n impuesto :'+ document.getElementById('impuesto').innerHTML+'\n total : '+ document.getElementById('totalisimo').innerHTML
+        };
+
+        emailjs.send("service_jit80bi", "template_boleta", templateParams)
+            .then(function (response) {
+                if (response.text === 'OK') {
+                    alert('El correo se ha enviado de forma exitosa');
+                    var cartItems = document.getElementsByClassName("cart-items")[0];
+                    while (cartItems.hasChildNodes()) {
+                        cartItems.removeChild(cartItems.firstChild);
+                    }
+                    updateCartTotal();
+                    updateItemsTotal();
+                }
+                console.log("SUCCESS. status=%d, text=%s", response.status, response.text);
+            }, function (err) {
+                alert('Ocurrió un problema al enviar el correo');
+                console.log("FAILED. error=", err);
+            });
+        }
+
+        
+        
+    </script>
 </body>
 </html>
 
+<!-- Modal Checkout -->
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-xl">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="exampleModalLabel">Detalle de la compra</h1>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+			</div>
+			<div class="modal-body">
+                <div class="row justify-content-center" id="app">
+                    <div class="col-7">
+                        <form action="#" class="billing-form">
+                            <div class="row align-items-end">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="firstname">Primer Nombre</label>
+                                        <input type="text" class="form-control" id="nombre" placeholder="Nombre" autofocus>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="lastname">Apellido</label>
+                                        <input type="text" class="form-control" id="apellido" placeholder="Apellido">
+                                    </div>
+                                </div>
+                                <div class="w-100"></div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="country"> Pais</label>
+                                        <div class="select-wrap">
+                                            <div class="icon"><span class="ion-ios-arrow-down"></span></div>
+                                            <select name="Pais" id="" class="form-control">
+                                                <option value="CL">Chile</option>
+                                                <option value="AR">Argentina</option>
+                                                <option value="PE">Peru</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="w-100"></div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="streetaddress">Dirección Domicilio *</label>
+                                        <input type="text" class="form-control" id="dir" placeholder="Calle, Avenida, #">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="numero" placeholder="Departamento, Casa">
+                                    </div>
+                                </div>
+                                <div class="w-100"></div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="towncity">Ciudad *</label>
+                                        <input type="text" class="form-control" id="ciudad" placeholder="Ciudad">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="postcodezip">Codigo postal *</label>
+                                        <input type="text" class="form-control" id="postal" placeholder="código postal">
+                                    </div>
+                                </div>
+                                <div class="w-100"></div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="phone">Telefono *</label>
+                                        <input type="text" class="form-control" id="telefono" placeholder="Número de contacto">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="emailaddress">Correo electronico *</label>
+                                        <input type="text" class="form-control" id="de_correo" placeholder="correo">
+                                    </div>
+                                </div>
+                                <div class="w-100"></div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-5">
+                        <div class="row mt-5 pt-3">
+                            <div class="col-md-12 d-flex mb-5">
+                                <div class="cart-detail cart-total p-3 p-md-4">
+                                    <h3 class="billing-heading mb-4">Total</h3>
+                                    <p class="d-flex">
+                                        <span>Subtotal</span>
+                                        <span id="subtotal"></span>
+                                    </p>
+                                    <p class="d-flex">
+                                        <span>Delivery</span>
+                                        <span id="delivery"></span>
+                                    </p>
+                                    <p class="d-flex">
+                                        <span>Descuento</span>
+                                        <span id="descuento"></span>
+                                    </p>
+                                    <p class="d-flex">
+                                        <span>Impuesto</span>
+                                        <span id="impuesto"></span>
+                                    </p>
+                                    <hr>
+                                    <p class="d-flex total-price">
+                                        <span>Total</span>
+                                        <span id="totalisimo"></span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="cart-detail p-3 p-md-4">
+                                    <h3 class="billing-heading mb-4">Metodo de pago</h3>
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="radio">
+                                                <label><input type="radio" name="optradio" class="mr-2"> Transferencia
+                                                    bancaria</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="radio">
+                                                <label><input type="radio" name="optradio" class="mr-2"> Mercado pago</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="radio">
+                                                <label><input type="radio" name="optradio" class="mr-2"> Paypal</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <input class="btn btn-primary py-3 px-4" type="button"
+                                            value="Comprar y enviar datos por mail" onclick="enviarCorreo()" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+			</div>
+		</div>
+	</div>
+</div>
