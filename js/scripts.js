@@ -14,35 +14,35 @@ document.addEventListener('DOMContentLoaded', () => {
             nombre: 'Celular Motorola',
             precio: 185000,
             imagen: 'motorola.jpg',
-            stock: 10
+            stock: 9
         },
         {
             id: 3,
             nombre: 'Laptop Lenovo',
             precio: 950000,
             imagen: 'laptop1.jpg',
-            stock: 10
+            stock: 8
         },
         {
             id: 4,
             nombre: 'Laptop HP',
             precio: 855000,
             imagen: 'laptop2.jpg',
-            stock: 10
+            stock: 7
         },
         {
             id: 5,
             nombre: 'Headphones urbenexs',
             precio: 20000,
             imagen: 'head1.jpg',
-            stock: 10
+            stock: 12
         },
         {
             id: 6,
             nombre: 'Headphones Shoks',
             precio: 35000,
             imagen: 'head2.webp',
-            stock: 10
+            stock: 11
         }
     
     ];
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Stock
             const miNodoStock = document.createElement('p');
             miNodoStock.classList.add('product__stock');
-            miNodoStock.textContent = `Stock disponible: ${info.stock}`;
+            miNodoStock.textContent = `disponible: ${info.stock}`;
             // Precio
             const miNodoPrecio = document.createElement('p');
             miNodoPrecio.classList.add('product__price');
@@ -196,7 +196,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isNaN(input.value) || input.value <= 0) {
             input.value = 1;
         }
-        
+        if(input.value > dataset.stock) {
+            alert('Cantidad superior al stock actual');
+        }
         updateCartTotal();
         updateItemsTotal();
     }
@@ -206,15 +208,16 @@ document.addEventListener('DOMContentLoaded', () => {
         var product = button.parentElement.parentElement;
         var title = product.getElementsByClassName("product-title")[0].innerText;
         var price = product.getElementsByClassName("product__price")[0].innerHTML;
+        var stock = parseInt(product.getElementsByClassName("product__stock")[0].innerText.replace("disponible:",""));
         var imageSrc = product.getElementsByClassName("product__image")[0].src;
-        addItemToCart(title, price, imageSrc);
+        addItemToCart(title, price, imageSrc, stock);
         document.getElementById('vaciar').style.visibility = "visible";
         document.getElementById('pagar').style.visibility = "visible";
         updateCartTotal();
         updateItemsTotal();
     }
 
-    function addItemToCart(title, price, imageSrc) {
+    function addItemToCart(title, price, imageSrc, stock) {
         var cartRow = document.createElement("div");
         cartRow.classList.add("cart-row");
         var cartItems = document.getElementsByClassName("cart-items")[0];
@@ -232,7 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
         <span class="cart-price cart-column">${price}</span>
         <div class="cart-quantity cart-column">
-            <input class="cart-quantity-input" type="number" value="1" autocomplete="off">
+            <input class="cart-quantity-input" type="number" value="1" data-stock="${stock}" autocomplete="off">
             <button class="btn btn-danger" type="button">Borrar</button>
         </div>`;
         cartRow.innerHTML = cartRowContents;
