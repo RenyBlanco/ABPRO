@@ -224,6 +224,7 @@ body {
   transition: all 0.3s ease-in-out;
   width: 0;
   overflow: auto;
+  z-index: 2;
   text-align: center;
   border-radius: 0.5rem;
 }

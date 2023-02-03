@@ -55,7 +55,7 @@
                     <strong class="cart-total-title">Total</strong>
                     <span class="cart-total-price">$0</span>
                 </div>
-                <button class="btn btn-secondary" id="boton-vaciar" type="button">Vaciar</button>
+                <button class="btn btn-secondary btn-vaciar" id="vaciar" type="button">Vaciar</button>
                 <button class="btn btn-primary btn-purchase" id="pagar" type="button">Pagar</button>
             </section>
         </div> <!--navbar-container-->
@@ -113,11 +113,8 @@
         
         $(document).ready(function(){
             if(document.querySelector(".cart-total-price").innerHTML == "$0"){
-                document.getElementById('boton-vaciar').style.visibility = "hidden";
+                document.getElementById('vaciar').style.visibility = "hidden";
                 document.getElementById('pagar').style.visibility = "hidden";
-            }else{
-                document.getElementById('boton-vaciar').style.visibility = "visible";
-                document.getElementById('pagar').style.visibility = "visible";
             }
             $('.ir-arriba').click(function(){
                 $('body, html').animate({
