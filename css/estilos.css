@@ -217,7 +217,7 @@ body {
 }
 .cart {
   position: absolute;
-  min-height: 24rem;
+  min-height: 30rem;
   background: var(--mainGrey);
   top: 42px;
   right: 0;
