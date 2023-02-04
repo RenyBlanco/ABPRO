@@ -1,0 +1,48 @@
+{
+    "basedeDatos": {
+        "Productos":[
+            {
+                "id": 1,
+                "nombre": "Celular Huawei",
+                "precio": 230000,
+                "imagen": "huawei.jpg",
+                "stock": 10
+            },
+            {
+                "id": 2,
+                "nombre": "Celular Motorola",
+                "precio": 185000,
+                "imagen": "motorola.jpg",
+                "stock": 9
+            },
+            {
+                "id": 3,
+                "nombre": "Laptop Lenovo",
+                "precio": 950000,
+                "imagen": "laptop1.jpg",
+                "stock": 8
+            },
+            {
+                "id": 4,
+                "nombre": "Laptop HP",
+                "precio": 855000,
+                "imagen": "laptop2.jpg",
+                "stock": 7
+            },
+            {
+                "id": 5,
+                "nombre": "Headphones urbenexs",
+                "precio": 20000,
+                "imagen": "head1.jpg",
+                "stock": 12
+            },
+            {
+                "id": 6,
+                "nombre": "Headphones Shoks",
+                "precio": 35000,
+                "imagen": "head2.webp",
+                "stock": 11
+            }
+        ]
+    }
+}

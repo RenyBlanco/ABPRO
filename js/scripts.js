@@ -1,68 +1,30 @@
 // Carro 2
 document.addEventListener('DOMContentLoaded', () => {
-    const baseDeDatos = [
-        {
-            id: 1,
-            nombre: 'Celular Huawei',
-            precio: 230000,
-            imagen: 'huawei.jpg',
-            stock: 10
-        },
-        {
-            id: 2,
-            nombre: 'Celular Motorola',
-            precio: 185000,
-            imagen: 'motorola.jpg',
-            stock: 9
-        },
-        {
-            id: 3,
-            nombre: 'Laptop Lenovo',
-            precio: 950000,
-            imagen: 'laptop1.jpg',
-            stock: 8
-        },
-        {
-            id: 4,
-            nombre: 'Laptop HP',
-            precio: 855000,
-            imagen: 'laptop2.jpg',
-            stock: 7
-        },
-        {
-            id: 5,
-            nombre: 'Headphones urbenexs',
-            precio: 20000,
-            imagen: 'head1.jpg',
-            stock: 12
-        },
-        {
-            id: 6,
-            nombre: 'Headphones Shoks',
-            precio: 35000,
-            imagen: 'head2.webp',
-            stock: 11
-        }
     
-    ];
-
     let formato = new Intl.NumberFormat('es-CL', {
         style: 'currency',
         currency: 'CLP'
     });
     
     const DOMitems = document.querySelector('#items');
-    const miLocalStorage = window.localStorage;
+    //const miLocalStorage = window.localStorage;
     
     // Funciones
     
     /**
     * Dibuja todos los productos a partir de la base de datos. No confundir con el carrito
     */
+
+   
+   var tabla;
+   $.getJSON('js/listado.json', function(data) {
+       tabla = data.basedeDatos;
+       renderizarProductos(0);
+    });
     function renderizarProductos() {
-        baseDeDatos.forEach((info) => {
-            // Estructura
+        jQuery.each(tabla.Productos, function(i, fila) {
             
+            // Estructura
             const miNodo = document.createElement('div');
             miNodo.classList.add('col-md-12');
             // Body
@@ -71,26 +33,25 @@ document.addEventListener('DOMContentLoaded', () => {
             // Titulo
             const miNodoTitle = document.createElement('h5');
             miNodoTitle.classList.add('product-title');
-            miNodoTitle.textContent = info.nombre;
+            miNodoTitle.textContent = fila.nombre;
             // Imagen
             const miNodoImagen = document.createElement('img');
             miNodoImagen.classList.add('product__image');
-            miNodoImagen.setAttribute('src', './img/'+info.imagen);
+            miNodoImagen.setAttribute('src', './img/'+fila.imagen);
             // Stock
             const miNodoStock = document.createElement('p');
             miNodoStock.classList.add('product__stock');
-            miNodoStock.textContent = `disponible: ${info.stock}`;
+            miNodoStock.textContent = `disponible: ${fila.stock}`;
             // Precio
             const miNodoPrecio = document.createElement('p');
             miNodoPrecio.classList.add('product__price');
-            miNodoPrecio.textContent = `${formato.format(info.precio)}`;
+            miNodoPrecio.textContent = `${formato.format(fila.precio)}`;
             // Boton 
-        
             const miNodoBoton = document.createElement('button');
             miNodoBoton.classList.add('btn', 'btn-outline-success','AGREGA');
             miNodoBoton.textContent = 'Añadir al carro';
-            miNodoBoton.setAttribute('marcador', info.id);
-            //miNodoBoton.addEventListener('click', addToCartClicked);
+            miNodoBoton.setAttribute('marcador', fila.id);
+            miNodoBoton.addEventListener('click', addToCartClicked);
             // Insertamos
             miNodoCardBody.appendChild(miNodoImagen);
             miNodoCardBody.appendChild(miNodoTitle);
@@ -101,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
             DOMitems.appendChild(miNodo);
         });
     }
+
     //guardarCarritoEnLocalStorage();
         
     //function guardarCarritoEnLocalStorage () {
@@ -115,8 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
     //    }
     //}
     
-    renderizarProductos();
-
     (function () {
         const cartInfo = document.getElementById("cart-info");
         const cart = document.getElementById("cart");
@@ -207,6 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
         var price = product.getElementsByClassName("product__price")[0].innerHTML;
         var stock = parseInt(product.getElementsByClassName("product__stock")[0].innerText.replace("disponible:",""));
         var imageSrc = product.getElementsByClassName("product__image")[0].src;
+        
         addItemToCart(title, price, imageSrc, stock);
         document.getElementById('vaciar').style.visibility = "visible";
         document.getElementById('pagar').style.visibility = "visible";
@@ -221,7 +182,11 @@ document.addEventListener('DOMContentLoaded', () => {
         var cartItemTitles = cartItems.getElementsByClassName("cart-item-title");
         for (var i = 0; i < cartItemTitles.length; i++) {
             if (cartItemTitles[i].innerText == title) {
-                alert("El item ya se encuentra en el carro");
+                Swal.fire(
+                    'Error!',
+                    'El item ya se encuentra en el carro!',
+                    'warning'
+                );
                 return;
             }
         }
@@ -258,8 +223,6 @@ document.addEventListener('DOMContentLoaded', () => {
             var price = parseInt(priceElement.innerText.replace("$", ""))*1000;
             var dispone = parseInt(stockElement.value);
             var quantity = parseInt(quantityElement.value);
-            console.log('Cantidad ',quantity);
-            console.log('Stock ',dispone);
             if (dispone < quantity) {
                 Swal.fire(
                     'Error!',
@@ -271,7 +234,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             total = total + price * quantity;
         }
-        //total = Math.round(total * 100) / 100;
         document.getElementsByClassName("cart-total-price")[0].innerText = formato.format(total);
     }
 
