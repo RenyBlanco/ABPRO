@@ -256,17 +256,19 @@ document.addEventListener('DOMContentLoaded', () => {
             var priceElement = cartRow.getElementsByClassName("cart-price")[0];
             var quantityElement = cartRow.getElementsByClassName("cart-quantity-input")[0];
             var stockElement = cartRow.getElementsByClassName("cart-stock-input")[0];
-            var dispone = stockElement.value;
             var price = parseInt(priceElement.innerText.replace("$", ""))*1000;
-            var quantity = quantityElement.value;
-            if(dispone < quantity){
+            var dispone = parseInt(stockElement.value);
+            var quantity = parseInt(quantityElement.value);
+            console.log('Cantidad ',quantity);
+            console.log('Stock ',dispone);
+            if (dispone < quantity) {
                 Swal.fire(
                     'Error!',
                     'Cantidad no disponible!',
                     'error'
                 );
                 cartRow.getElementsByClassName("cart-quantity-input")[0].value = dispone;
-
+                quantity = dispone;
             }
             total = total + price * quantity;
         }
