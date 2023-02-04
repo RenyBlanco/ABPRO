@@ -197,9 +197,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isNaN(input.value) || input.value <= 0) {
             input.value = 1;
         }
-        // if(input.value > dataset.stock) {
-        //     alert('Cantidad superior al stock actual');
-        // }
         updateCartTotal();
         updateItemsTotal();
     }
@@ -236,7 +233,8 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
         <span class="cart-price cart-column">${price}</span>
         <div class="cart-quantity cart-column">
-            <input class="cart-quantity-input" type="number" value="1" data-stock="${stock}" autocomplete="off">
+            <input class="cart-quantity-input" type="number" value="1" autocomplete="off">
+            <input class="cart-stock-input" type="hidden" value="${stock}">
             <button class="btn btn-danger" type="button">Borrar</button>
         </div>`;
         cartRow.innerHTML = cartRowContents;
@@ -257,8 +255,19 @@ document.addEventListener('DOMContentLoaded', () => {
             var cartRow = cartRows[i];
             var priceElement = cartRow.getElementsByClassName("cart-price")[0];
             var quantityElement = cartRow.getElementsByClassName("cart-quantity-input")[0];
+            var stockElement = cartRow.getElementsByClassName("cart-stock-input")[0];
+            var dispone = stockElement.value;
             var price = parseInt(priceElement.innerText.replace("$", ""))*1000;
             var quantity = quantityElement.value;
+            if(dispone < quantity){
+                Swal.fire(
+                    'Error!',
+                    'Cantidad no disponible!',
+                    'error'
+                );
+                cartRow.getElementsByClassName("cart-quantity-input")[0].value = dispone;
+
+            }
             total = total + price * quantity;
         }
         //total = Math.round(total * 100) / 100;

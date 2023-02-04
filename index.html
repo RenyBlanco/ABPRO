@@ -177,7 +177,12 @@
         emailjs.send("service_jit80bi", "template_boleta", templateParams)
             .then(function (response) {
                 if (response.text === 'OK') {
-                    alert('El correo se ha enviado de forma exitosa');
+                    Swal.fire(
+                        'Gracias por su compra!',
+                        'Se ha enviado un correo con la boleta de su compra!',
+                        'success'
+                        )
+                    alert('');
                     var cartItems = document.getElementsByClassName("cart-items")[0];
                     while (cartItems.hasChildNodes()) {
                         cartItems.removeChild(cartItems.firstChild);
@@ -187,7 +192,11 @@
                 }
                 console.log("SUCCESS. status=%d, text=%s", response.status, response.text);
             }, function (err) {
-                alert('Ocurrió un problema al enviar el correo');
+                Swal.fire(
+                    'Error!',
+                    'Algo ocurrió con el envío!',
+                    'error'
+                );
                 console.log("FAILED. error=", err);
             });
         }
