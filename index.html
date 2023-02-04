@@ -142,13 +142,15 @@
             myModal.show();
             let subtotal = document.getElementById('total-price').innerHTML.replace("$", "");
             console.log(subtotal);
-            subtotal = subtotal.replace(".","");
+            subtotal = subtotal.replaceAll(".","");
+            console.log(subtotal);
             document.getElementById('subtotal').innerHTML = " "+formato.format(subtotal);
             document.getElementById('impuesto').innerHTML = " "+formato.format(subtotal*0.19);
             document.getElementById('totalisimo').innerHTML = " "+formato.format(subtotal * 1.19);
         }
 
         function enviarCorreo() {
+
             let productos = '';
             myModal.hide()
             var cartItemContainer = document.getElementsByClassName("cart-items")[0];
@@ -158,9 +160,11 @@
                 var cartRow = cartRows[i];
                 var titleElement = cartRow.getElementsByClassName("cart-item-title")[0];
                 var quantityElement = cartRow.getElementsByClassName("cart-quantity-input")[0];
+                var stockElement = cartRow.getElementsByClassName("cart-stock-input")[0];
                 var priceElement = cartRow.getElementsByClassName("cart-price")[0];
                 var price = priceElement.innerHTML.replace("$", "");
-                price = price.replace(".","");
+                price = price.replaceAll(".","");
+                var dispone = parseInt(stockElement.value);
                 var quantity = quantityElement.value;
                 total = total + (price * quantity);
                 productos += '\n'+titleElement.innerHTML+'  '+quantityElement.value+' '+priceElement.innerHTML +' '+formato.format(total);
@@ -182,11 +186,12 @@
                         'Se ha enviado un correo con la boleta de su compra!',
                         'success'
                         )
-                    alert('');
                     var cartItems = document.getElementsByClassName("cart-items")[0];
                     while (cartItems.hasChildNodes()) {
                         cartItems.removeChild(cartItems.firstChild);
                     }
+                    document.getElementById('vaciar').style.visibility = "hidden";
+                    document.getElementById('pagar').style.visibility = "hidden";
                     updateCartTotal();
                     updateItemsTotal();
                 }
@@ -297,24 +302,24 @@
                                 <div class="cart-detail cart-total p-3 p-md-4">
                                     <h3 class="billing-heading mb-4">Total</h3>
                                     <p class="d-flex">
-                                        <span>Subtotal</span>
+                                        <span>Subtotal </span>
                                         <span id="subtotal"></span>
                                     </p>
                                     <p class="d-flex">
-                                        <span>Delivery</span>
-                                        <span id="delivery"></span>
+                                        <span>Delivery </span>
+                                        <span id="delivery"> </span>
                                     </p>
                                     <p class="d-flex">
-                                        <span>Descuento</span>
+                                        <span>Descuento </span>
                                         <span id="descuento"></span>
                                     </p>
                                     <p class="d-flex">
-                                        <span>Impuesto</span>
+                                        <span>Impuesto </span>
                                         <span id="impuesto"></span>
                                     </p>
                                     <hr>
                                     <p class="d-flex total-price">
-                                        <span>Total</span>
+                                        <span>Total </span>
                                         <span id="totalisimo"></span>
                                     </p>
                                 </div>

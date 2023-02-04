@@ -170,15 +170,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function purchaseClicked(){
         abrirModal();
-        //alert("Gracias por su compra");
-        var cartItems = document.getElementsByClassName("cart-items")[0];
-        while (cartItems.hasChildNodes()){
-            cartItems.removeChild(cartItems.firstChild);
-        }
-        document.getElementById('vaciar').style.visibility = "hidden";
-        document.getElementById('pagar').style.visibility = "hidden";
-        updateCartTotal();
-        updateItemsTotal();
+        // var cartItems = document.getElementsByClassName("cart-items")[0];
+        // while (cartItems.hasChildNodes()){
+        //     cartItems.removeChild(cartItems.firstChild);
+        // }
+        // document.getElementById('vaciar').style.visibility = "hidden";
+        // document.getElementById('pagar').style.visibility = "hidden";
+        // updateCartTotal();
+        // updateItemsTotal();
     }
 
     function vaciarClicked(){
