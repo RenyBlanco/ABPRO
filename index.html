@@ -129,9 +129,9 @@
     </script>
     <script>
         let formato = new Intl.NumberFormat('es-CL', {
-        style: 'currency',
-        currency: 'CLP'
-    });
+            style: 'currency',
+            currency: 'CLP'
+        });
         (function () {
             emailjs.init("m0bJyc8oDT7rSweoJ");
         })();
@@ -143,9 +143,7 @@
             });
             myModal.show();
             let subtotal = document.getElementById('total-price').innerHTML.replace("$", "");
-            console.log(subtotal);
-            subtotal = subtotal.replaceAll(".","");
-            console.log(subtotal);
+            subtotal = parseInt(subtotal.replaceAll(".",""));
             document.getElementById('subtotal').innerHTML = " "+formato.format(subtotal);
             document.getElementById('impuesto').innerHTML = " "+formato.format(subtotal*0.19);
             document.getElementById('totalisimo').innerHTML = " "+formato.format(subtotal * 1.19);

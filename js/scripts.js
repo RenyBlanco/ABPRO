@@ -162,20 +162,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function addToCartClicked(event) {
         var button = event.target;
+        var id = event.target.getAttribute('marcador');
         var product = button.parentElement.parentElement;
         var title = product.getElementsByClassName("product-title")[0].innerText;
         var price = product.getElementsByClassName("product__price")[0].innerHTML;
         var stock = parseInt(product.getElementsByClassName("product__stock")[0].innerText.replace("disponible:",""));
         var imageSrc = product.getElementsByClassName("product__image")[0].src;
         
-        addItemToCart(title, price, imageSrc, stock);
+        addItemToCart(title, price, imageSrc, stock, id);
         document.getElementById('vaciar').style.visibility = "visible";
         document.getElementById('pagar').style.visibility = "visible";
         updateCartTotal();
         updateItemsTotal();
     }
 
-    function addItemToCart(title, price, imageSrc, stock) {
+    function addItemToCart(title, price, imageSrc, stock, id) {
         var cartRow = document.createElement("div");
         cartRow.classList.add("cart-row");
         var cartItems = document.getElementsByClassName("cart-items")[0];
@@ -199,6 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="cart-quantity cart-column">
             <input class="cart-quantity-input" type="number" value="1" autocomplete="off">
             <input class="cart-stock-input" type="hidden" value="${stock}">
+            <input class="cart-id-input" type="hidden" value="${id}">
             <button class="btn btn-danger" type="button">Borrar</button>
         </div>`;
         cartRow.innerHTML = cartRowContents;
