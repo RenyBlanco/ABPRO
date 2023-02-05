@@ -108,15 +108,24 @@
     <script>
         //document.getElementById("fecha").innerHTML = moment().format('MMMM Do YYYY, h:mm:ss a');
         $(document).ready(function(){
+
+            (function () {
+                emailjs.init("m0bJyc8oDT7rSweoJ");
+            })();
+
+            var myModal
+        
             if(document.querySelector(".cart-total-price").innerHTML == "$0"){
                 document.getElementById('vaciar').style.visibility = "hidden";
                 document.getElementById('pagar').style.visibility = "hidden";
             }
+
             $('.ir-arriba').click(function(){
                 $('body, html').animate({
                 scrollTop: '0px'
                 },300);
             });
+
             $(window).scroll(function(){
                 if($(this).scrollTop() > 0){
                     $('.ir-arriba').slideDown(300);
@@ -124,34 +133,19 @@
                     $('.ir-arriba').slideUp(300);
                 };
             });
+
+            
         });
 
     </script>
-    <script>
+    <!-- <script>
         let formato = new Intl.NumberFormat('es-CL', {
-            style: 'currency',
-            currency: 'CLP'
-        });
-        (function () {
-            emailjs.init("m0bJyc8oDT7rSweoJ");
-        })();
-        var myModal
-        function abrirModal() {
-            cart.classList.toggle("show-cart");
-            myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
-                keyboard: true
+                style: 'currency',
+                currency: 'CLP'
             });
-            myModal.show();
-            let subtotal = document.getElementById('total-price').innerHTML.replace("$", "");
-            subtotal = parseInt(subtotal.replaceAll(".",""));
-            document.getElementById('subtotal').innerHTML = " "+formato.format(subtotal);
-            document.getElementById('impuesto').innerHTML = " "+formato.format(subtotal*0.19);
-            document.getElementById('totalisimo').innerHTML = " "+formato.format(subtotal * 1.19);
-        }
 
         function enviarCorreo() {
-
-            let productos = '';
+            let productosComprados = '';
             myModal.hide()
             var cartItemContainer = document.getElementsByClassName("cart-items")[0];
             var cartRows = cartItemContainer.getElementsByClassName("cart-row");
@@ -160,14 +154,12 @@
                 var cartRow = cartRows[i];
                 var titleElement = cartRow.getElementsByClassName("cart-item-title")[0];
                 var quantityElement = cartRow.getElementsByClassName("cart-quantity-input")[0];
-                var stockElement = cartRow.getElementsByClassName("cart-stock-input")[0];
                 var priceElement = cartRow.getElementsByClassName("cart-price")[0];
                 var price = priceElement.innerHTML.replace("$", "");
                 price = price.replaceAll(".","");
-                var dispone = parseInt(stockElement.value);
                 var quantity = quantityElement.value;
                 total = total + (price * quantity);
-                productos += '\n'+titleElement.innerHTML+'  '+quantityElement.value+' '+priceElement.innerHTML +' '+formato.format(total);
+                productosComprados += '\n'+titleElement.innerHTML+'  '+quantityElement.value+' '+priceElement.innerHTML +' '+formato.format(total);
             }
             var templateParams = {
             to_name: document.getElementById('nombre').value+' '+document.getElementById('apellido').value,
@@ -175,40 +167,38 @@
             numero: document.getElementById('numero').value,
             ciudad: document.getElementById('ciudad').value,
             de_correo: document.getElementById('de_correo').value,
-            message: productos+'\n subtotal : '+ document.getElementById('subtotal').innerHTML+'\n impuesto :'+ document.getElementById('impuesto').innerHTML+'\n total : '+ document.getElementById('totalisimo').innerHTML
-        };
+            message: productosComprados+'\n subtotal : '+ document.getElementById('subtotal').innerHTML+'\n impuesto :'+ document.getElementById('impuesto').innerHTML+'\n total : '+ document.getElementById('totalisimo').innerHTML
+            };
 
-        emailjs.send("service_jit80bi", "template_boleta", templateParams)
-            .then(function (response) {
-                if (response.text === 'OK') {
-                    Swal.fire(
-                        'Gracias por su compra!',
-                        'Se ha enviado un correo con la boleta de su compra!',
-                        'success'
+            emailjs.send("service_jit80bi", "template_boleta", templateParams)
+                .then(function (response) {
+                    if (response.text === 'OK') {
+                        Swal.fire(
+                            'Gracias por su compra!',
+                            'Se ha enviado un correo con la boleta de su compra!',
+                            'success'
                         )
-                    var cartItems = document.getElementsByClassName("cart-items")[0];
-                    while (cartItems.hasChildNodes()) {
-                        cartItems.removeChild(cartItems.firstChild);
+                        var cartItems = document.getElementsByClassName("cart-items")[0];
+                        while (cartItems.hasChildNodes()) {
+                            cartItems.removeChild(cartItems.firstChild);
+                        }
+                        document.getElementById('vaciar').style.visibility = "hidden";
+                        document.getElementById('pagar').style.visibility = "hidden";
+                        updateCartTotal();
+                        updateItemsTotal();
                     }
-                    document.getElementById('vaciar').style.visibility = "hidden";
-                    document.getElementById('pagar').style.visibility = "hidden";
-                    updateCartTotal();
-                    updateItemsTotal();
-                }
-                console.log("SUCCESS. status=%d, text=%s", response.status, response.text);
-            }, function (err) {
-                Swal.fire(
-                    'Error!',
-                    'Algo ocurrió con el envío!',
-                    'error'
-                );
+                    //console.log("SUCCESS. status=%d, text=%s", response.status, response.text);
+                }, function (err) {
+                    Swal.fire(
+                        'Error!',
+                        'Algo ocurrió con el envío!',
+                        'error'
+                    );
                 console.log("FAILED. error=", err);
+                
             });
         }
-
-        
-        
-    </script>
+    </script> -->
 </body>
 </html>
 

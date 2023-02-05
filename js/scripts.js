@@ -8,22 +8,27 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const DOMitems = document.querySelector('#items');
     //const miLocalStorage = window.localStorage;
-    
+    let productos = [];
     // Funciones
-    
     /**
     * Dibuja todos los productos a partir de la base de datos. No confundir con el carrito
     */
 
-   
-   var tabla;
-   $.getJSON('js/listado.json', function(data) {
+    var tabla;
+    $.getJSON('js/listado.json', function(data) {
        tabla = data.basedeDatos;
-       renderizarProductos(0);
+       llenaListado()
     });
-    function renderizarProductos() {
+    
+    function llenaListado() {
         jQuery.each(tabla.Productos, function(i, fila) {
-            
+            productos.push(fila);
+        });
+        renderizarProductos();
+    }
+
+    function renderizarProductos() {
+        productos.forEach(element => {
             // Estructura
             const miNodo = document.createElement('div');
             miNodo.classList.add('col-md-12');
@@ -33,24 +38,24 @@ document.addEventListener('DOMContentLoaded', () => {
             // Titulo
             const miNodoTitle = document.createElement('h5');
             miNodoTitle.classList.add('product-title');
-            miNodoTitle.textContent = fila.nombre;
+            miNodoTitle.textContent = element.nombre;
             // Imagen
             const miNodoImagen = document.createElement('img');
             miNodoImagen.classList.add('product__image');
-            miNodoImagen.setAttribute('src', './img/'+fila.imagen);
+            miNodoImagen.setAttribute('src', './img/'+element.imagen);
             // Stock
             const miNodoStock = document.createElement('p');
             miNodoStock.classList.add('product__stock');
-            miNodoStock.textContent = `disponible: ${fila.stock}`;
+            miNodoStock.textContent = `disponible: ${element.stock}`;
             // Precio
             const miNodoPrecio = document.createElement('p');
             miNodoPrecio.classList.add('product__price');
-            miNodoPrecio.textContent = `${formato.format(fila.precio)}`;
+            miNodoPrecio.textContent = `${formato.format(element.precio)}`;
             // Boton 
             const miNodoBoton = document.createElement('button');
             miNodoBoton.classList.add('btn', 'btn-outline-success','AGREGA');
             miNodoBoton.textContent = 'Añadir al carro';
-            miNodoBoton.setAttribute('marcador', fila.id);
+            miNodoBoton.setAttribute('marcador', element.id);
             miNodoBoton.addEventListener('click', addToCartClicked);
             // Insertamos
             miNodoCardBody.appendChild(miNodoImagen);
@@ -129,15 +134,15 @@ document.addEventListener('DOMContentLoaded', () => {
     /*end*/
 
     function purchaseClicked(){
-        abrirModal();
-        // var cartItems = document.getElementsByClassName("cart-items")[0];
-        // while (cartItems.hasChildNodes()){
-        //     cartItems.removeChild(cartItems.firstChild);
-        // }
-        // document.getElementById('vaciar').style.visibility = "hidden";
-        // document.getElementById('pagar').style.visibility = "hidden";
-        // updateCartTotal();
-        // updateItemsTotal();
+        updateStock();
+        vaciarClicked();
+        
+        cart.classList.toggle("show-cart");
+        Swal.fire(
+            'Gracias por su compra!',
+            'Se ha enviado un correo con la boleta de su compra!',
+            'success'
+        );
     }
 
     function vaciarClicked(){
@@ -255,4 +260,67 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         document.getElementById("item-count").innerText = total;
     }
+
+    function updateStock() {
+        let lis = document.getElementsByClassName("product__stock");
+        let habilita = document.getElementsByClassName("AGREGA");
+        var cartItemContainer = document.getElementsByClassName("cart-items")[0];
+        var cartRows = cartItemContainer.getElementsByClassName("cart-row");
+        for (var i = 0; i < cartRows.length; i++) {
+            var cartRow = cartRows[i];
+            var quantityElement = cartRow.getElementsByClassName("cart-quantity-input")[0];
+            var stockElement = cartRow.getElementsByClassName("cart-stock-input")[0];
+            var stockId = cartRow.getElementsByClassName("cart-id-input")[0];
+            var id = parseInt(stockId.value);
+            var quantity = parseInt(quantityElement.value);
+            var dispone = parseInt(stockElement.value);
+            var queda = dispone-quantity;
+            for(let i=0; i < productos.length; i++) {
+                if(productos[i].id == id){
+                    lis[id-1].innerHTML = "disponible : "+(queda);
+                    productos[i].stock = (queda);
+                    if(queda <= 1 ) {
+                        var templateParams = {
+                            product: productos[i].nombre,
+                            to_name: 'Encargado de inventarios',
+                            de_correo: 'rey.blanco@yahoo.com',
+                            message: productos[i].nombre+' está quedando fuera de stock'
+                        };
+                        emailjs.send("service_jit80bi", "template_tizwwvm", templateParams)
+                            .then(function (response) {
+                                if (response.text === 'OK') {
+                             
+                                }
+                                console.log("SUCCESS. status=%d, text=%s", response.status, response.text);
+                            }, 
+                            function (err) {
+                              
+                            console.log("FAILED. error=", err);
+                        });
+                    }
+                    if(queda==0){
+                        habilita[i].classList.replace('btn-outline-success', 'btn-outline-danger');
+                        habilita[i].setAttribute('disabled','disabled');
+                        habilita[i].innerHTML = 'Sin Stock';
+                    }
+                }
+            };
+        }
+        
+    }
+
+    // function abrirModal() {
+    //     cart.classList.toggle("show-cart");
+    //     myModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
+    //         keyboard: true
+    //     });
+    //     myModal.show();
+    //     let subtotal = document.getElementById('total-price').innerHTML.replace("$", "");
+    //     subtotal = parseInt(subtotal.replaceAll(".",""));
+    //     document.getElementById('subtotal').innerHTML = " "+formato.format(subtotal);
+    //     document.getElementById('impuesto').innerHTML = " "+formato.format(subtotal*0.19);
+    //     document.getElementById('totalisimo').innerHTML = " "+formato.format(subtotal * 1.19);
+    //     updateStock();
+    // }
+
 });
